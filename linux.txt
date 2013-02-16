@@ -67,4 +67,9 @@ GITHUB
 	ssh-add -l
 	# Debe salir el fingerprint de tu huella con el nombre de la clave al final de la línea.
 
+3.- Crear un repositorio en GitHub
+	# Auto-explicado en www.github.com
+4.- Sincronizar el repositorio de GitHub en local
+	# Seleccionamos la carpeta en la que vamos a alojar el repositorio. En mi caso /home/user/Documentos/Projectos/
+	# 
 
