@@ -1,0 +1,70 @@
+Instalaciones linux
+
+GITHUB
+1.- Darse de alta en www.github.com
+2.- configurar la clave SSH para acceso a github: https://help.github.com/articles/generating-ssh-keys
+	cd ~/.ssh
+	# Checks to see if there is a directory named ".ssh" in your user directory
+	
+
+	ls
+	# Lists all the subdirectories in the current directory	
+	# config  id_rsa  id_rsa.pub  known_hosts	
+	mkdir key_backup
+	# Makes a subdirectory called "key_backup" in the current directory	
+	cp id_rsa* key_backup
+	# Copies the id_rsa keypair into key_backup		
+	rm id_rsa*
+	# Deletes the id_rsa keypair
+	
+	# Generamos una nueva clave.
+
+	ssh-keygen -t rsa -C "your_email@youremail.com"
+
+	# Creates a new ssh key using the provided email
+	# Generating public/private rsa key pair.
+	# Enter file in which to save the key (/home/you/.ssh/id_rsa):
+	# Yo configuro las claves con el correo.servicio para las que la voy a usar en vez de el id_rsa que viene por defecto
+	
+	#Ponemos clave a la clave privada para más seguridad.
+	#Enter passphrase (empty for no passphrase): [Type a passphrase]
+	# Enter same passphrase again: [Type passphrase again]
+
+	# Debe salir algo como esto:
+	# Your identification has been saved in /home/you/.ssh/id_rsa.
+	# Your public key has been saved in /home/you/.ssh/id_rsa.pub.
+	# The key fingerprint is:
+	# 01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@youremail.com
+
+
+	# Copiamos la clave al portapapeles para posteriormente pegarla en github
+	# sudo apt-get install xclip
+	# Downloads and installs xclip
+	# xclip -sel clip < ~/.ssh/id_rsa.pub
+	# Copies the contents of the id_rsa.pub file to your clipboard
+
+	# Vamos a la cuenta de github, seleccionamos SSH-KEYS, le ponemos un nombre y pegamos la clave desde el portapapeles
+
+	# Ahora comprobamos que todo está OK
+	# ssh -T git@github.com
+	# Attempts to ssh to github
+	# Hay que usar git@github.com, no tu usuario.
+	# Te pedirá que añadas la huella RSA a la lista de known_hosts
+	# Debe salirte esto: Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+
+	# Si te sale un error como este: 
+	# ssh -T git@github.com
+	# Permission denied (publickey).
+	# es porque te falta añadir la clave al sistema:
+
+	ssh-add /home/username/.ssh/nombre_de_la_clave
+
+	# Te pedirá la contraseña de la clave privada
+	# Enter passphrase for /home/username/.ssh/nombre_de_la_clave: 	
+	# Identity added: /home/username/.ssh/nombre_de_la_clave (/home/username/.ssh/nombre_de_la_clave)
+
+	# Comprobamos que la clave se ha añadido
+	ssh-add -l
+	# Debe salir el fingerprint de tu huella con el nombre de la clave al final de la línea.
+
+
