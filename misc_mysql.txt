@@ -1,0 +1,35 @@
+Here's a quick php code snippet to read your master.info and relay-log.info and generate a change master sql command from it. Very useful if you get corrupted relay logs or have had to purge your relay logs, etc.
+
+<?php
+$master_info=array();
+$relay_info=array();
+$x=0;
+$mi=fopen('/tmp/master.info','r'); //<-- replace
+$ri=fopen('/tmp/relay-log.info','r'); //<-- replace
+
+if($mi){
+        while(!feof($mi)){
+        $master_info[$x]=chop(fgets($mi,512));
+        $x++;
+        }
+        fclose($mi);
+}
+
+$x=0;
+if($ri){
+        while(!feof($ri)){
+        $relay_info[$x]=chop(fgets($ri,512));
+        $x++;
+        }
+        fclose($ri);
+}
+
+$x=0;
+echo "CHANGE MASTER TO MASTER_HOST='$master_info[3]',
+      MASTER_USER='$master_info[4]',  
+      MASTER_PASSWORD='$master_info[5]', 
+      MASTER_LOG_FILE='$relay_info[2]', 
+      MASTER_LOG_POS=$relay_info[3];";
+
+exit(0);
+?> 
